@@ -23,6 +23,9 @@ import CriticalProject from "../components/critical-projects/critical";
 // ft - adding the count of projects due 
 import DueSoon from "../components/due-soon/duesoon";
 
+// ft - adding the project due soon card
+import ProjectsDue from "../components/project-due/due";
+
 
 export default async function Dashboard() {
 
@@ -67,8 +70,13 @@ export default async function Dashboard() {
                     <LiveDateTime />
                 </div>
 
-                <div className="min-h-42 rounded-3xl bg-[#1f1f1f] p-6 md:col-span-4">
+                {/* <div className="min-h-42 rounded-3xl bg-[#1f1f1f] p-6 md:col-span-4">
                     Projects Due
+                </div> */}
+
+                {/* Testing out the new component */}
+                <div className="min-h-42 md:col-span-4">
+                    <ProjectsDue />
                 </div>
 
                 <div className="min-h-52 md:col-span-2">
