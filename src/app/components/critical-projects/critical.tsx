@@ -28,14 +28,14 @@ export default function CriticalProject() {
     }, []);
 
     return (
-        <div className="h-full rounded-[3rem] bg-[#1f1f1f] p-6 text-center">
-            <h2 className="mb-8 text-xl font-extrabold text-white">Critical Due Soon</h2>
+        <div className="h-fit rounded-3xl bg-[#1f1f1f] p-4 text-center">
+            <h2 className="mb-4 text-xl font-extrabold text-white">Critical Due Soon</h2>
 
-            <div className="flex flex-col gap-4">
+            <div className="flex flex-col gap-2">
                 {projects.map((project) => (
                     <div
                         key={project.project_id}
-                        className="rounded-2xl bg-[#292929] p-4"
+                        className="rounded-2xl bg-[#292929] p-3"
                     >
                         <p className="font-semibold text-white">
                             {project.project_name}

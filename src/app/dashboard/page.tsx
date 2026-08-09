@@ -20,6 +20,9 @@ import PrioritySelect from "../components/priority/priority-select";
 // ft - adding the critical project tag
 import CriticalProject from "../components/critical-projects/critical";
 
+// ft - adding the count of projects due 
+import DueSoon from "../components/due-soon/duesoon";
+
 
 export default async function Dashboard() {
 
@@ -68,17 +71,12 @@ export default async function Dashboard() {
                     Projects Due
                 </div>
 
-                {/* <div className="min-h-52 rounded-3xl bg-[#1f1f1f] p-6 md:col-span-2">
-                    Critical
-                </div> */}
-
-                {/* Testing this component */}
                 <div className="min-h-52 md:col-span-2">
                     <CriticalProject />
                 </div>
 
 
-                <div className="min-h-64 rounded-3xl bg-[#1f1f1f] p-6 md:col-span-4 md:row-span-2 flex flex-col items-center gap-2">
+                <div className="min-h-64 self-start rounded-3xl bg-[#1f1f1f] p-6 md:col-span-4 md:row-span-2 flex flex-col items-center gap-2">
                     <h1 className="text-xl font-extrabold">Add your project!</h1>
                     <form className="grid grid-cols-1 gap-4 md:grid-cols-2">
 
@@ -134,9 +132,15 @@ export default async function Dashboard() {
                     </form>
                 </div>
 
-                <div className="min-h-52 rounded-3xl bg-[#1f1f1f] p-6 md:col-span-2">
+                {/* <div className="min-h-52 rounded-3xl bg-[#1f1f1f] p-6 md:col-span-2">
                     Due Soon
+                </div> */}
+
+                {/* Testing this component */}
+                <div className="min-h-52 md:col-span-2">
+                    <DueSoon />
                 </div>
+
             </div>
         </main>
     </div>
