@@ -26,6 +26,9 @@ import DueSoon from "../components/due-soon/duesoon";
 // ft - adding the project due soon card
 import ProjectsDue from "../components/project-due/due";
 
+// ft - adding the submit functionality
+import AddProject from "../components/submit-project/submit";
+
 
 export default async function Dashboard() {
 
@@ -70,11 +73,6 @@ export default async function Dashboard() {
                     <LiveDateTime />
                 </div>
 
-                {/* <div className="min-h-42 rounded-3xl bg-[#1f1f1f] p-6 md:col-span-4">
-                    Projects Due
-                </div> */}
-
-                {/* Testing out the new component */}
                 <div className="min-h-42 md:col-span-4">
                     <ProjectsDue />
                 </div>
@@ -86,12 +84,14 @@ export default async function Dashboard() {
 
                 <div className="min-h-64 self-start rounded-3xl bg-[#1f1f1f] p-6 md:col-span-4 md:row-span-2 flex flex-col items-center gap-2">
                     <h1 className="text-xl font-extrabold">Add your project!</h1>
-                    <form className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                    {/*<form className="grid grid-cols-1 gap-4 md:grid-cols-2">*/}
+                    <AddProject>
 
                         <div className="rounded-2xl bg-[#292929] p-4 flex flex-col gap-2">
                             <label>Project Name</label>
                             <input 
                                 type="text" 
+                                name="projectName"
                                 className="h-11 rounded-xl bg-[#1f1f1f] px-4 outline-none"
                             />
                         </div>
@@ -107,6 +107,7 @@ export default async function Dashboard() {
                             {/* This is just for now */}
                             <input 
                                 type="date"
+                                name="projectDueDate"
                                 className="h-11 rounded-xl bg-[#1f1f1f] px-4 outline-none"
                             />
                         </div>
@@ -116,13 +117,14 @@ export default async function Dashboard() {
                             {/* This is just for now */}
                             <input 
                                 type="time"
+                                name="projectDueTime"
                                 className="h-11 rounded-xl bg-[#1f1f1f] px-4 outline-none"
                             />
                         </div>
 
                         <CommentsInput />
 
-                        <button
+                        {/* <button
                             type="submit"
                             className="
                                 relative h-11 overflow-hidden rounded-xl
@@ -136,15 +138,15 @@ export default async function Dashboard() {
                             <span className="relative z-10">
                                 Submit Project
                             </span>
-                        </button>
-                    </form>
+                        </button> */}
+
+                        {/* Testing the component for the submit button */}
+
+
+                    {/*</form>*/}
+                    </AddProject>
                 </div>
 
-                {/* <div className="min-h-52 rounded-3xl bg-[#1f1f1f] p-6 md:col-span-2">
-                    Due Soon
-                </div> */}
-
-                {/* Testing this component */}
                 <div className="min-h-52 md:col-span-2">
                     <DueSoon />
                 </div>

@@ -12,6 +12,7 @@ export default function CommentsInput() {
             <div className="relative">
                 <textarea 
                     value={comments}
+                    name="comments"
                     maxLength={500}
                     onChange={(e) => setComments(e.target.value)}
                     className="min-h-24 w-full resize-none rounded-xl bg-[#1f1f1f] p-4 pb-8 outline-none placeholder:text-xs"
