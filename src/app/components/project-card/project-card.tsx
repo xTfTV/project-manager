@@ -1,3 +1,8 @@
+"use client";
+
+import { useState } from "react";
+import ProjectModel from "../project-model/project-model";
+
 interface ProjectCardProps {
     projectId: number;
     projectName: string;
@@ -19,16 +24,21 @@ export default function ProjectCard({
     comments,
     completeDate
 }: ProjectCardProps) {
+
+    const [isOpen, setIsOpen] = useState(false);
+
     const commentsPreview = 
         comments && comments.length > 50 ? `${comments.substring(0,50)}...` : comments || "-";
     
     return (
+    <>
         <div 
             data-project-id={projectId}
+            onClick={() => setIsOpen(true)}
             className="
                 grid grid-cols-7 items-center
                 rounded-2xl bg-[#292929]
-                px-5 py-4
+                px-5 py-4 cursor-pointer
             "
         >
             <p className="font-semibold text-white">{projectName}</p>
@@ -67,5 +77,19 @@ export default function ProjectCard({
                 }) : "-" }
             </p>
         </div>
+
+        {isOpen && (
+            <ProjectModel
+                projectName={projectName}
+                priorityName={priorityName}
+                statusName={statusName}
+                createdDate={createdDate}
+                dueDate={dueDate}
+                comments={comments}
+                completeDate={completeDate}
+                onClose={() => setIsOpen(false)}
+            />
+        )}
+    </>
     );
 } 
