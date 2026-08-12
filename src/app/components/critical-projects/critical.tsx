@@ -28,7 +28,7 @@ export default function CriticalProject() {
     }, []);
 
     return (
-        <div className="h-fit rounded-3xl bg-[#1f1f1f] p-4 text-center">
+        <div className="h-71 rounded-2xl bg-[#1f1f1f] p-4 text-center">
             <h2 className="mb-4 text-xl font-extrabold text-white">Critical Due Soon</h2>
 
             <div className="flex flex-col gap-2">
