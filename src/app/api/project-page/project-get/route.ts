@@ -5,6 +5,7 @@ import { RowDataPacket } from "mysql2";
 interface ProjectRow extends RowDataPacket {
     project_id: number;
     project_name: string;
+    priority_id: number;
     priority_name: string;
     project_status_id: number;
     project_status_name: string;
@@ -20,6 +21,7 @@ export async function GET() {
             SELECT
                 p.project_id,
                 p.project_name,
+                p.priority_id,
                 pr.priority_name,
                 p.project_status_id,
                 ps.project_status_name,

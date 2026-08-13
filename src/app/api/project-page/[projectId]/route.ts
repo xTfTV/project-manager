@@ -1,7 +1,11 @@
 import { NextResponse } from "next/server";
 import pool from "@/lib/db";
 import { getSession } from "@/lib/session";
-import { ResultSetHeader } from "mysql2";
+import { ResultSetHeader, RowDataPacket } from "mysql2";
+
+interface StatusRow extends RowDataPacket {
+    project_status_name: string;
+}
 
 interface UpdateProjectBody {
     projectName: string;
@@ -65,6 +69,25 @@ export async function PATCH(
             )
         }
 
+        const [statusRow] = await pool.execute<StatusRow[]>(
+            `
+                SELECT project_status_name
+                FROM Project_Status
+                WHERE project_status_id = ?
+                    AND LCV = 0
+            `,
+            [projectStatusId]
+        );
+
+        if (statusRow.length === 0) {
+            return NextResponse.json(
+                { message: "Invalid project status" },
+                { status: 400 }
+            );
+        }
+
+        const isCompleted = statusRow[0].project_status_name.toLowerCase() === "completed";
+
         const [result] = await pool.execute<ResultSetHeader> (
             `
                 UPDATE Projects
@@ -73,7 +96,15 @@ export async function PATCH(
                     priority_id = ?,
                     project_status_id = ?,
                     project_due_date = ?,
-                    comments = ?
+                    comments = ?,
+                    project_complete_date = 
+                        CASE
+                            WHEN ? = 1 AND project_complete_date IS NULL
+                                 THEN CURRENT_TIMESTAMP
+                            WHEN ? = 0
+                                THEN NULL
+                            ELSE project_complete_date
+                        END
                 WHERE project_id = ?
                     AND logical_cancel_value = 0
             `,
@@ -83,6 +114,8 @@ export async function PATCH(
                 projectStatusId,
                 projectDueDate || null,
                 comments?.trim() || null,
+                isCompleted ? 1 : 0,
+                isCompleted ? 1 : 0,
                 id,
             ]
         );
