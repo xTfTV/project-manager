@@ -3,26 +3,44 @@
 import { useState } from "react";
 import ProjectModel from "../project-model/project-model";
 
+interface Priority {
+    priority_id: number;
+    priority_name: string;
+}
+
+interface Status {
+    project_status_id: number;
+    project_status_name: string;
+}
+
 interface ProjectCardProps {
     projectId: number;
     projectName: string;
+    priorityId: number;
     priorityName: string;
+    statusId: number;
     statusName: string;
     createdDate: string;
     dueDate: string | null;
     comments: string | null;
     completeDate: string | null;
+    priorities: Priority[];
+    statuses: Status[];
 }
 
 export default function ProjectCard({
     projectId,
     projectName,
+    priorityId,
     priorityName,
+    statusId,
     statusName,
     createdDate,
     dueDate,
     comments,
-    completeDate
+    completeDate,
+    priorities,
+    statuses,
 }: ProjectCardProps) {
 
     const [isOpen, setIsOpen] = useState(false);
@@ -80,13 +98,18 @@ export default function ProjectCard({
 
         {isOpen && (
             <ProjectModel
+                projectId={projectId}
                 projectName={projectName}
+                priorityId={priorityId}
                 priorityName={priorityName}
+                statusId={statusId}
                 statusName={statusName}
                 createdDate={createdDate}
                 dueDate={dueDate}
                 comments={comments}
                 completeDate={completeDate}
+                priorities={priorities}
+                statuses={statuses}
                 onClose={() => setIsOpen(false)}
             />
         )}

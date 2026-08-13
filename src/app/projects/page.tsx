@@ -6,7 +6,14 @@ import { getSession } from '@/lib/session';
 // ft - Adding the project list component
 import ProjectList from "../components/project-list/project-list";
 
+// ft - Adding priorities/statuses
+import { getPriorities } from "@/lib/priority";
+import { getProjectStatuses } from "@/lib/status";
+
 export default async function Projects() {
+
+    const priorities = await getPriorities();
+    const statuses = await getProjectStatuses();
 
     // Adding the session auth for the page
     const session = await getSession();
@@ -35,7 +42,10 @@ export default async function Projects() {
                         <span>Completed</span>
                     </div>
 
-                    <ProjectList />
+                    <ProjectList
+                        priorities={priorities}
+                        statuses={statuses}
+                    />
                 </div>
             </main>
         </div>

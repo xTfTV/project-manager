@@ -51,7 +51,7 @@ export async function PATCH(
         } = body;
 
         // Ensuring that the required fields are still there during the update
-        if (projectName?.trim()) {
+        if (!projectName?.trim()) {
             return NextResponse.json(
                 { message: "Project Name is required and cannot be null" },
                 { status: 400 }
@@ -73,7 +73,7 @@ export async function PATCH(
                     priority_id = ?,
                     project_status_id = ?,
                     project_due_date = ?,
-                    comments = ?,
+                    comments = ?
                 WHERE project_id = ?
                     AND logical_cancel_value = 0
             `,
