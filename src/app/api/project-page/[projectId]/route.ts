@@ -87,6 +87,7 @@ export async function PATCH(
         }
 
         const isCompleted = statusRow[0].project_status_name.toLowerCase() === "completed";
+        const isCancelled = statusRow[0].project_status_name.toLowerCase() === "cancelled";
 
         const [result] = await pool.execute<ResultSetHeader> (
             `
@@ -104,6 +105,11 @@ export async function PATCH(
                             WHEN ? = 0
                                 THEN NULL
                             ELSE project_complete_date
+                        END,
+                    logical_cancel_value = 
+                        CASE
+                            WHEN ? = 1 THEN 1
+                            ELSE logical_cancel_value
                         END
                 WHERE project_id = ?
                     AND logical_cancel_value = 0
@@ -116,6 +122,7 @@ export async function PATCH(
                 comments?.trim() || null,
                 isCompleted ? 1 : 0,
                 isCompleted ? 1 : 0,
+                isCancelled ? 1 : 0,
                 id,
             ]
         );
