@@ -15,8 +15,32 @@ interface ProjectRow extends RowDataPacket {
     project_complete_date: string | null;
 }
 
-export async function GET() {
+interface CountRow extends RowDataPacket {
+    total: number;
+}
+
+export async function GET(request: Request) {
     try {
+
+        const { searchParams } = new URL(request.url);
+
+        const page = Number(searchParams.get("page")) || 1;
+
+        const limit = 10;
+
+        const offset = (page - 1) * limit;
+
+        // Get the total number of active projects
+        const [countRows] = await pool.query<CountRow[]>(`
+                SELECT COUNT(*) AS total
+                FROM Projects
+                WHERE logical_cancel_value = 0
+            `);
+            
+        const totalProjects = countRows[0].total;
+
+        const totalPages = Math.ceil(totalProjects / limit);
+
         const [rows] = await pool.query<ProjectRow[]>(`
             SELECT
                 p.project_id,
@@ -36,9 +60,17 @@ export async function GET() {
                 ON p.project_status_id = ps.project_status_id
             WHERE p.logical_cancel_value = 0
             ORDER BY p.project_created_date DESC
-            LIMIT 10
-        `);
-        return NextResponse.json(rows);
+            LIMIT ?
+            OFFSET ?
+        `, [limit, offset]);
+
+        return NextResponse.json({
+            projects: rows,
+            currentPage: page,
+            totalPages,
+            totalProjects
+        });
+        
     } catch (error) {
         console.error("Error fetching the projects:", error);
 
