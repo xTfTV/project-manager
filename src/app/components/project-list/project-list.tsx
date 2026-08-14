@@ -38,10 +38,14 @@ export default function ProjectList({
     const [projects, setProjects] = useState<Project[]>([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
+    const [statusFilter, setStatusFilter] = useState("");
 
     useEffect(() => {
         async function getProjects() {
-            const response = await fetch (`/api/project-page/project-get?page=${currentPage}`);
+
+            const statusParam = statusFilter ? `&status=${encodeURIComponent(statusFilter)}` : "";
+
+            const response = await fetch (`/api/project-page/project-get?page=${currentPage}${statusParam}`);
 
             if (!response.ok) {
                 console.error("Failed to fetch projects");
@@ -53,10 +57,80 @@ export default function ProjectList({
             setTotalPages(data.totalPages)
         }
         getProjects();
-    }, [currentPage]);
+    }, [currentPage, statusFilter]);
+
+    function changeStatusFilter(status: string) {
+        setStatusFilter(status);
+        setCurrentPage(1);
+    }
 
     return (
         <div className="flex flex-col gap-6">
+
+            <div className="flex gap-2">
+                <button
+                    type="button"
+                    onClick={() => changeStatusFilter("")}
+                    className={`
+                        cursor-pointer rounded-xl px-4 py-2
+                        ${
+                            statusFilter === "" ? "bg-[#ff2d3b] text-white" : "bg-[#292929] text-gray-300"
+                        }    
+                    `}
+                >
+                    All
+                </button>
+
+                <button
+                    type="button"
+                    onClick={() => changeStatusFilter("Submitted")}
+                    className={`
+                        cursor-pointer rounded-xl px-4 py-2
+                        ${
+                            statusFilter === "Submitted" ? "bg-[#ff2d3b] text-white" : "bg-[#292929] text-gray-300"
+                        }
+                    `}
+                >
+                    Submitted
+                </button>
+
+                <button
+                    type="button"
+                    onClick={() => changeStatusFilter("In Progress")}
+                    className={`
+                        cursor-pointer rounded-xl px-4 py-2
+                        ${
+                            statusFilter === "In Progress" ? "bg-[#ff2b3b] text-white" : "bg-[#292929] text-gray-300"
+                        }
+                    `}
+                >
+                    In Progress
+                </button>
+
+                <button
+                    type="button"
+                    onClick={() => changeStatusFilter("Completed")}
+                    className={`
+                        cursor-pointer rounded-xl px-4 py-2
+                        ${
+                            statusFilter === "Completed" ? "bg-[#ff2b3b] text-white" : "bg-[#292929] text-gray-300"
+                        }    
+                    `}
+                >
+                    Completed
+                </button>
+            </div>
+
+            <div className="mb-2 grid grid-cols-7 px-5 text-sm font-semibold text-gray-400">
+                <span>Project</span>
+                <span>Priority</span>
+                <span>Status</span>
+                <span>Created</span>
+                <span>Due</span>
+                <span>Comments</span>
+                <span>Completed</span>
+            </div>
+
             <div className="flex flex-col gap-2">
                 {projects.map((project) => (
                     <ProjectCard

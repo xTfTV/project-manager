@@ -31,17 +31,7 @@ export default async function Projects() {
             <main className="flex w-full justify-center px-4 py-8 sm:px-6 lg:px-8">
                 <div className="w-full max-w-7xl">
                     <h1 className="mb-6 text-2xl font-extrabold text-white">Projects</h1>
-
-                    <div className="mb-2 grid grid-cols-7 px-5 text-sm font-semibold text-gray-400">
-                        <span>Project</span>
-                        <span>Priority</span>
-                        <span>Status</span>
-                        <span>Created</span>
-                        <span>Due</span>
-                        <span>Comments</span>
-                        <span>Completed</span>
-                    </div>
-
+                    
                     <ProjectList
                         priorities={priorities}
                         statuses={statuses}
