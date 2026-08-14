@@ -77,12 +77,13 @@ export default async function Dashboard() {
                     <ProjectsDue />
                 </div>
 
-                <div className="min-h-52 md:col-span-2">
+                <div className="flex flex-col gap-4 md:col-span-2">
                     <CriticalProject />
+                    <DueSoon />
                 </div>
 
 
-                <div className="min-h-64 self-start rounded-3xl bg-[#1f1f1f] p-6 md:col-span-4 md:row-span-2 flex flex-col items-center gap-2">
+                <div className="min-h-64 self-start rounded-3xl bg-[#1f1f1f] p-6 md:col-span-4 flex flex-col items-center gap-2">
                     <h1 className="text-xl font-extrabold">Add your project!</h1>
                     {/*<form className="grid grid-cols-1 gap-4 md:grid-cols-2">*/}
                     <AddProject>
@@ -146,10 +147,10 @@ export default async function Dashboard() {
                     {/*</form>*/}
                     </AddProject>
                 </div>
-
+{/* 
                 <div className="min-h-52 md:col-span-2">
                     <DueSoon />
-                </div>
+                </div> */}
 
             </div>
         </main>
