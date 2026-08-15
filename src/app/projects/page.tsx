@@ -26,7 +26,7 @@ export default async function Projects() {
         <div className="min-h-screen">
             <title>Projects</title>
 
-            <Header />
+            <Header roleId={session.roleId} />
 
             <main className="flex w-full justify-center px-4 py-8 sm:px-6 lg:px-8">
                 <div className="w-full max-w-7xl">
