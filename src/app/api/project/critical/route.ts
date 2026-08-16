@@ -1,7 +1,17 @@
 import { NextResponse } from "next/server";
 import pool from "@/lib/db";
+import { getSession } from "@/lib/session";
 
 export async function GET() {
+
+    const session = await getSession();
+    if (!session) {
+        return NextResponse.json(
+            { message: "Unauthorized" },
+            { status: 401 }
+        );
+    }
+
     try {
         const [rows] = await pool.query(`
                 SELECT
@@ -12,9 +22,10 @@ export async function GET() {
                 WHERE priority_id = 3
                     AND logical_cancel_value = 0
                     AND project_due_date >= NOW()
+                    AND p.created_by_user_id = ?
                 ORDER BY project_due_date ASC
                 LIMIT 3
-            `);
+            `, [session.userId]);
 
             return NextResponse.json(rows);
     } catch (error) {
