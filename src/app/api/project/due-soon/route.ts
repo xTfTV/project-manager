@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import pool from '@/lib/db';
 import { RowDataPacket } from "mysql2";
+import { getSession } from "@/lib/session";
 
 interface DueSoonRow extends RowDataPacket {
     due_today: number;
@@ -10,6 +11,16 @@ interface DueSoonRow extends RowDataPacket {
 }
 
 export async function GET() {
+
+    const session = await getSession();
+
+    if (!session) {
+        return NextResponse.json(
+            { message: "Unauthorized" },
+            { status: 401 }
+        )
+    }
+
     try {
         const [rows] = await pool.query<DueSoonRow[]>(`
                 SELECT 
@@ -37,7 +48,8 @@ export async function GET() {
 
                 WHERE logical_cancel_value = 0
                     AND project_due_date IS NOT NULL
-            `);
+                    AND created_by_user_id = ?
+            `, [session.userId]);
             return NextResponse.json(rows[0]);
     } catch (error) {
         console.error("Error fetching due soon projects:", error);
