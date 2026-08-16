@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import pool from "@/lib/db";
 import { RowDataPacket } from "mysql2";
+import { getSession } from "@/lib/session";
 
 interface ProjectRow extends RowDataPacket {
     project_id: number;
@@ -20,6 +21,16 @@ interface CountRow extends RowDataPacket {
 }
 
 export async function GET(request: Request) {
+
+    const session = await getSession();
+
+    if (!session) {
+        return NextResponse.json(
+            { message: "Unauthorized" },
+            { status: 401 }
+        );
+    }
+
     try {
 
         const { searchParams } = new URL(request.url);
@@ -33,7 +44,8 @@ export async function GET(request: Request) {
         const offset = (page - 1) * limit;
 
         let statusFilter = "";
-        const countParams: string[] = [];
+
+        const countParams: (string | number)[] = [session.userId];
 
         if (status) {
             statusFilter = "AND ps.project_status_name = ?";
@@ -47,6 +59,7 @@ export async function GET(request: Request) {
                 INNER JOIN Project_Status PS
                     ON P.project_status_id = PS.project_status_id
                 WHERE logical_cancel_value = 0
+                    AND P.created_by_user_id = ?
                 ${statusFilter}
             `, countParams);
             
@@ -55,10 +68,14 @@ export async function GET(request: Request) {
         const totalPages = Math.ceil(totalProjects / limit);
 
         const projectParams: (string | number)[] = [
-            ...countParams,
-            limit,
-            offset,
+            session.userId
         ];
+
+        if (status) {
+            projectParams.push(status);
+        }
+
+        projectParams.push(limit, offset);
 
         const [rows] = await pool.query<ProjectRow[]>(`
             SELECT
@@ -78,6 +95,7 @@ export async function GET(request: Request) {
             INNER JOIN Project_Status ps
                 ON p.project_status_id = ps.project_status_id
             WHERE p.logical_cancel_value = 0
+                AND p.created_by_user_id = ?
             ${statusFilter}
             ORDER BY p.project_created_date DESC
             LIMIT ?
