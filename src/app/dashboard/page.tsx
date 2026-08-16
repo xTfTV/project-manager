@@ -58,11 +58,15 @@ export default async function Dashboard() {
 
     const user = users[0];
 
+    if (!user) {
+        redirect("/");
+    }
+
     return (
         <div className="min-h-screen">
             <title>Dashboard</title>
 
-            <Header />
+            <Header roleId={session.roleId} />
 
             <main className="flex w-full justify-center px-4 py-8 sm:px-6 lg:px-8">
                 <div className="grid w-full max-w-5xl grid-cols-1 gap-4 md:grid-cols-6">

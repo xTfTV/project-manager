@@ -48,7 +48,7 @@ export default function Home() {
                     const data: LoginResponse = await response.json();
 
                     if (!response.ok) {
-                      setErrorMessage(data.message);
+                      setErrorMessage(data.message || "Invalid email or password");
                       return;
                     }
                     router.push("/dashboard")

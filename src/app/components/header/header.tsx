@@ -3,13 +3,18 @@
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 
-const links = [
-  { name: "Dashboard", href: "/dashboard" },
-  { name: "Projects", href: "/projects" },
-  //{ name: "Logout", href: "/logout" },
-];
+interface HeaderProps {
+  roleId: number;
+}
 
-export default function Header() {
+
+export default function Header({ roleId }: HeaderProps) {
+
+  const links = [
+    { name: "Dashboard", href: "/dashboard" },
+    { name: "Projects", href: "/projects" },
+    ...(roleId === 1 ? [{ name: "Accounts", href: "/account-creation" }] : []),
+  ];
 
   // Router and the logout functionality
   const router = useRouter();
