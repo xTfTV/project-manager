@@ -103,7 +103,7 @@ export async function POST(request: Request) {
 
         await pool.execute<ResultSetHeader>(
             `
-                INSERT INTO usre_info (
+                INSERT INTO user_info (
                     first_name,
                     last_name,
                     email_address,

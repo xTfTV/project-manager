@@ -1,9 +1,12 @@
 import { redirect } from "next/navigation";
 import { getSession } from "@/lib/session";
 import Header from "@/app/components/header/header";
+import { getUserRoles } from "@/lib/user-role";
+import CreateAccountForm from "@/app/components/create-account-form/create-account-form";
 
 export default async function CreateAccountPage() {
     const session = await getSession();
+    const roles = await getUserRoles();
 
     if (!session) {
         redirect("/");
@@ -23,7 +26,9 @@ export default async function CreateAccountPage() {
                 <div className="w-full max-w-2xl">
                     <h1 className="mb-6 text-2xl font-extrabold text-white">Create Account</h1>
 
-                    <div className="rounded-2xl bg-[#1f1f1f] p-6">
+                    <CreateAccountForm roles={roles} />
+
+                    {/* <div className="rounded-2xl bg-[#1f1f1f] p-6">
 
                         <form className="grid grid-cols-2 gap-4">
 
@@ -74,7 +79,16 @@ export default async function CreateAccountPage() {
                                     name="userRoleId"
                                     className="h-11 rounded-2xl bg-[#292929] px-4 text-white outline-none"
                                 >
+                                    <option value="">Select Role</option>
 
+                                    {roles.map((role) => (
+                                        <option
+                                            key={role.user_role_id}
+                                            value={role.user_role_id}
+                                        >
+                                            {role.role_name}
+                                        </option>
+                                    ))}
                                 </select>
                             </div>
 
@@ -85,7 +99,7 @@ export default async function CreateAccountPage() {
                                 Create Account
                             </button>
                         </form>
-                    </div>
+                    </div> */}
                 </div>
             </main>
         </div>
