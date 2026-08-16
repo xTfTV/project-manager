@@ -55,6 +55,10 @@ export default function ProjectList({
 
             setProjects(data.projects);
             setTotalPages(data.totalPages)
+
+            if (data.totalPages > 0 && currentPage > data.totalPages) {
+                setCurrentPage(data.totalPages);
+            }
         }
         getProjects();
     }, [currentPage, statusFilter]);
@@ -151,29 +155,35 @@ export default function ProjectList({
                 ))}
             </div>
 
-            <div className="mt-6 flex items-center justify-center gap-4">
-                <button 
-                    type="button"
-                    disabled={currentPage === 1}
-                    onClick={() => setCurrentPage((page) => page - 1)}
-                    className="cursor-pointer rounded-xl bg-[#292929] px-4 py-2 text-white disabled:cursor-not-allowed disabled:opacity-40"
-                >
-                    ←
-                </button>
+            {projects.length === 0 && (
+                <p className="py-8 text-center text-gray-400">No Projects Found</p>
+            )}
 
-                <p className="text-sm text-gray-400">
-                    Page {currentPage} of {totalPages}
-                </p>
+            {totalPages > 0 && (
+                <div className="mt-6 flex items-center justify-center gap-4">
+                    <button 
+                        type="button"
+                        disabled={currentPage <= 1}
+                        onClick={() => setCurrentPage((page) => page - 1)}
+                        className="cursor-pointer rounded-xl bg-[#292929] px-4 py-2 text-white disabled:cursor-not-allowed disabled:opacity-40"
+                    >
+                        ←
+                    </button>
 
-                <button
-                    type="button"
-                    disabled={currentPage === totalPages}
-                    onClick={() => setCurrentPage((page) => page + 1)}
-                    className="cursor-pointer rounded-xl bg-[#292929] px-4 py-2 text-white disabled:cursor-not-allowed disabled:opacity-40"
-                >
-                    →
-                </button>
-            </div>
+                    <p className="text-sm text-gray-400">
+                        Page {currentPage} of {totalPages}
+                    </p>
+
+                    <button
+                        type="button"
+                        disabled={currentPage >= totalPages}
+                        onClick={() => setCurrentPage((page) => page + 1)}
+                        className="cursor-pointer rounded-xl bg-[#292929] px-4 py-2 text-white disabled:cursor-not-allowed disabled:opacity-40"
+                    >
+                        →
+                    </button>
+                </div>
+            )}
 
         </div>
     );
