@@ -86,6 +86,13 @@ export async function POST(request: Request) {
       );
     }
 
+    if (user.length === 0) {
+      return Response.json(
+        { message: "Invalid email or password" },
+        { status: 401 }
+      )
+    }
+
     // ft auth-for-login
     // Adding the session cookie here
 

@@ -58,6 +58,10 @@ export default async function Dashboard() {
 
     const user = users[0];
 
+    if (!user) {
+        redirect("/");
+    }
+
     return (
         <div className="min-h-screen">
             <title>Dashboard</title>
