@@ -1,14 +1,16 @@
 import { SignJWT, jwtVerify, JWTPayload } from "jose";
 import { cookies } from 'next/headers';
 
-const secret = process.env.SESSION_SECRET;
+function getSecret() {
+    const secret = process.env.SESSION_SECRET;
 
-if (!secret) {
-    throw new Error("SESSION_SECRET is not defined");
+    if (!secret) {
+        throw new Error("SESSION_SECRET is not defined");
+    }
+
+    return new TextEncoder().encode(secret);
+
 }
-
-const encodedSecret = new TextEncoder().encode(secret);
-
 export interface SessionPayload extends JWTPayload {
     userId: number;
     email: string;
@@ -22,14 +24,14 @@ export async function createSessionToken (
         .setProtectedHeader({ alg: "HS256" })
         .setIssuedAt()
         .setExpirationTime("1h")
-        .sign(encodedSecret);
+        .sign(getSecret());
 }
 
 export async function verifySessionToken (
     token: string
 ) : Promise<SessionPayload | null> {
     try {
-        const { payload } = await jwtVerify(token, encodedSecret);
+        const { payload } = await jwtVerify(token, getSecret());
 
         return {
             userId: Number(payload.userId),

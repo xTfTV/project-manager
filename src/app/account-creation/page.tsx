@@ -4,6 +4,8 @@ import Header from "@/app/components/header/header";
 import { getUserRoles } from "@/lib/user-role";
 import CreateAccountForm from "@/app/components/create-account-form/create-account-form";
 
+export const dynamic = "force-dynamic";
+
 export default async function CreateAccountPage() {
     const session = await getSession();
     const roles = await getUserRoles();

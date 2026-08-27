@@ -29,6 +29,7 @@ import ProjectsDue from "../components/project-due/due";
 // ft - adding the submit functionality
 import AddProject from "../components/submit-project/submit";
 
+export const dynamic = "force-dynamic";
 
 export default async function Dashboard() {
 

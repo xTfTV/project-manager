@@ -10,6 +10,8 @@ import ProjectList from "../components/project-list/project-list";
 import { getPriorities } from "@/lib/priority";
 import { getProjectStatuses } from "@/lib/status";
 
+export const dynamic = "force-dynamic";
+
 export default async function Projects() {
 
     const priorities = await getPriorities();
