@@ -1,0 +1,11 @@
+
+-- Creating the priority id tables
+
+DROP TABLE IF EXISTS Priority;
+
+CREATE TABLE Priority (
+	priority_id INT PRIMARY KEY AUTO_INCREMENT,
+    priority_name VARCHAR(255),
+    LCV INT NOT NULL,
+    DB_TimeStamp DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
