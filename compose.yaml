@@ -4,7 +4,7 @@ services:
     container_name: project-manager-test
     restart: unless-stopped
     env_file:
-      - .env.local
+      - .env.docker
     ports:
       - "3000:3000"
     networks:
