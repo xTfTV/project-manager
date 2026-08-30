@@ -12,5 +12,5 @@ VALUES
 SELECT *
 FROM Project_Status;
 
-ROLLBACK;
+-- ROLLBACK;
 -- COMMIT;
