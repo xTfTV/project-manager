@@ -1,0 +1,25 @@
+services:
+  project-manager-test:
+    image: project-manager-test:latest
+    container_name: project-manager-test
+    restart: unless-stopped
+    env_file:
+      - .env.local
+    ports:
+      - "3000:3000"
+    networks:
+      - project-manager-network
+
+  project-manager-test-tunnel:
+    image: cloudflare/cloudflared:latest
+    container_name: project-manager-test-tunnel
+    restart: unless-stopped
+    command: tunnel --no-autoupdate --url http://project-manager-test:3000
+    depends_on:
+      - project-manager-test
+    networks:
+      - project-manager-network
+
+networks:
+  project-manager-network:
+    name: project-manager-network
